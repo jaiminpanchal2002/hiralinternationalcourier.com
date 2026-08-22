@@ -29,17 +29,9 @@ managed Postgres:
 2. Copy the **connection string** (looks like
    `postgresql://user:pass@ep-xxx.neon.tech/neondb?sslmode=require`).
 
-### 2. Switch Prisma to Postgres (one line)
-In `prisma/schema.prisma`:
-
-```prisma
-datasource db {
-  provider = "postgresql"   // was: sqlite
-  url      = env("DATABASE_URL")
-}
-```
-
-> Ask me and I'll make this change + push it for you.
+### 2. Prisma is already set to Postgres ✅
+`prisma/schema.prisma` uses `provider = "postgresql"` and the build runs
+`prisma generate` automatically. Nothing to change.
 
 ### 3. Push code to GitHub
 Already done → https://github.com/jaiminpanchal2002/hiralinternationalcourier.com
@@ -66,8 +58,8 @@ From your PC, pointing at the Neon DB:
 
 ```bash
 # put the Neon URL in .env as DATABASE_URL, then:
-npx prisma migrate deploy
-npm run db:seed
+npx prisma db push     # creates all tables in the Neon database
+npm run db:seed        # loads starter content + admin user
 ```
 
 ### 6. Point your Hostinger domain to Vercel
