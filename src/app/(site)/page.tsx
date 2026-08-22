@@ -192,7 +192,7 @@ export default async function HomePage() {
               <Reveal key={s.title} delay={i * 0.1}>
                 <div className="relative text-center">
                   <div className="mx-auto grid h-20 w-20 place-items-center rounded-2xl glass">
-                    <s.icon className="h-9 w-9 text-accent-2" />
+                    <s.icon className="h-9 w-9 text-gold" />
                     <span className="absolute -right-2 -top-2 grid h-7 w-7 place-items-center rounded-full bg-accent text-sm font-bold text-white">
                       {i + 1}
                     </span>

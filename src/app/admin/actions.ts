@@ -263,6 +263,37 @@ export async function deleteTrackingEvent(id: string) {
   revalidateSite();
 }
 
+/* ---------------- Leads (CRM) ---------------- */
+function leadPayload(fd: FormData) {
+  return {
+    name: str(fd, "name"),
+    phone: str(fd, "phone"),
+    email: str(fd, "email"),
+    source: str(fd, "source") || "Manual",
+    status: str(fd, "status") || "New",
+    destination: str(fd, "destination"),
+    value: str(fd, "value"),
+    message: str(fd, "message"),
+    notes: str(fd, "notes"),
+  };
+}
+export async function createLead(fd: FormData) {
+  await requireAdmin();
+  await prisma.lead.create({ data: leadPayload(fd) });
+}
+export async function updateLead(id: string, fd: FormData) {
+  await requireAdmin();
+  await prisma.lead.update({ where: { id }, data: leadPayload(fd) });
+}
+export async function updateLeadStatus(id: string, status: string) {
+  await requireAdmin();
+  await prisma.lead.update({ where: { id }, data: { status } });
+}
+export async function deleteLead(id: string) {
+  await requireAdmin();
+  await prisma.lead.delete({ where: { id } });
+}
+
 /* ---------------- Messages ---------------- */
 export async function toggleMessageRead(id: string, read: boolean) {
   await requireAdmin();

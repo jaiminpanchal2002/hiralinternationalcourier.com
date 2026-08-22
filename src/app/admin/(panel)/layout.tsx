@@ -13,10 +13,17 @@ export default async function PanelLayout({
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  const unread = await prisma.contactSubmission.count({ where: { read: false } });
+  const [unread, newLeads] = await Promise.all([
+    prisma.contactSubmission.count({ where: { read: false } }),
+    prisma.lead.count({ where: { status: "New" } }),
+  ]);
 
   return (
-    <AdminShell admin={{ name: session.name, email: session.email }} unread={unread}>
+    <AdminShell
+      admin={{ name: session.name, email: session.email }}
+      unread={unread}
+      newLeads={newLeads}
+    >
       {children}
     </AdminShell>
   );

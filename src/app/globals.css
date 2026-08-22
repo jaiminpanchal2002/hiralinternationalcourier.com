@@ -2,36 +2,37 @@
 
 /* ============================================================
    HIRAL INTERNATIONAL COURIER — Design Tokens
-   Brand: royal blue + sky accent (from the logo), trust & authority.
+   Brand (from logo): deep navy + teal + gold — premium logistics.
    ============================================================ */
 :root {
-  --background: #f7faff;
+  --background: #f7f5ef;   /* warm ivory */
   --surface: #ffffff;
-  --foreground: #0d1b34;
-  --muted: #eef4fd;
-  --muted-foreground: #5b6b86;
-  --border: #dce7f7;
+  --foreground: #12283a;   /* navy ink */
+  --muted: #eef0ec;
+  --muted-foreground: #5c6a73;
+  --border: #e2e0d5;
 
-  /* Brand blues */
-  --brand: #0b57c4; /* royal blue */
-  --brand-600: #0a4ea8;
-  --brand-700: #083f89;
-  --brand-navy: #062c63; /* deep navy */
-  --brand-ink: #041e46;
-  --accent: #00a6e0; /* sky/cyan accent */
-  --accent-2: #38bdf8;
+  /* Brand — teal primary, navy structure, gold accent */
+  --brand: #15616e;        /* teal (truck/ship) */
+  --brand-600: #124f5b;
+  --brand-700: #0e3f49;
+  --brand-navy: #0f2942;   /* deep navy */
+  --brand-ink: #0a1f33;    /* darkest navy (footer/sidebar) */
+  --accent: #c6a23c;       /* gold */
+  --accent-2: #3fa3b3;     /* light teal (for gradient range) */
   --on-brand: #ffffff;
 
-  --gold: #f2b705; /* subtle highlight (from banner) */
+  --gold: #c6a23c;         /* gold highlight (stars, etc.) */
+  --gold-light: #e0c069;
   --success: #16a34a;
   --warning: #d97706;
   --danger: #dc2626;
 
-  --ring: #0b57c4;
+  --ring: #15616e;
 
   --radius: 0.9rem;
-  --shadow-brand: 0 20px 45px -20px rgba(11, 87, 196, 0.45);
-  --shadow-soft: 0 12px 40px -18px rgba(6, 44, 99, 0.25);
+  --shadow-brand: 0 20px 45px -20px rgba(15, 41, 66, 0.5);
+  --shadow-soft: 0 12px 40px -18px rgba(15, 41, 66, 0.22);
 }
 
 @theme inline {
@@ -51,6 +52,7 @@
   --color-accent-2: var(--accent-2);
   --color-on-brand: var(--on-brand);
   --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
@@ -92,22 +94,35 @@ h1, h2, h3, h4, h5 {
 /* ---------- Reusable brand utilities ---------- */
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(100deg, var(--brand) 0%, var(--accent) 60%, var(--accent-2) 100%);
+    background: linear-gradient(100deg, var(--brand-navy) 0%, var(--brand) 45%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Gold gradient for premium accents / wordmark highlights */
+  .text-gold-gradient {
+    background: linear-gradient(100deg, var(--gold) 0%, var(--gold-light) 55%, var(--gold) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
 
   .bg-brand-gradient {
-    background: linear-gradient(120deg, var(--brand-navy) 0%, var(--brand) 55%, var(--brand-600) 100%);
+    background: linear-gradient(120deg, var(--brand-navy) 0%, var(--brand) 60%, var(--brand-600) 100%);
+  }
+
+  /* Premium gold CTA */
+  .bg-gold-gradient {
+    background: linear-gradient(120deg, #b8912f 0%, var(--gold) 45%, var(--gold-light) 100%);
   }
 
   .bg-hero-mesh {
     background:
-      radial-gradient(60% 55% at 15% 15%, rgba(0, 166, 224, 0.35) 0%, transparent 60%),
-      radial-gradient(55% 55% at 85% 20%, rgba(56, 189, 248, 0.28) 0%, transparent 55%),
-      radial-gradient(70% 70% at 60% 100%, rgba(4, 30, 70, 0.9) 0%, transparent 70%),
-      linear-gradient(125deg, #041e46 0%, #062c63 45%, #0b57c4 100%);
+      radial-gradient(58% 55% at 12% 18%, rgba(63, 163, 179, 0.28) 0%, transparent 60%),
+      radial-gradient(50% 50% at 88% 15%, rgba(198, 162, 60, 0.22) 0%, transparent 55%),
+      radial-gradient(70% 70% at 60% 100%, rgba(10, 31, 51, 0.92) 0%, transparent 70%),
+      linear-gradient(125deg, #0a1f33 0%, #0f2942 45%, #15616e 100%);
   }
 
   .glass {

@@ -3,15 +3,14 @@ import {
   PackageSearch,
   MessageSquare,
   Boxes,
-  Star,
+  Target,
   Globe2,
-  HelpCircle,
   ArrowRight,
   Inbox,
 } from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { formatDateTime } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -20,22 +19,20 @@ export default async function AdminDashboard() {
   const [
     shipments,
     unread,
-    totalMessages,
+    totalLeads,
+    newLeads,
     services,
-    testimonials,
     destinations,
-    faqs,
-    recentMessages,
+    recentLeads,
     activeShipments,
   ] = await Promise.all([
     prisma.shipment.count(),
     prisma.contactSubmission.count({ where: { read: false } }),
-    prisma.contactSubmission.count(),
+    prisma.lead.count(),
+    prisma.lead.count({ where: { status: "New" } }),
     prisma.service.count(),
-    prisma.testimonial.count(),
     prisma.destination.count(),
-    prisma.faq.count(),
-    prisma.contactSubmission.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
+    prisma.lead.findMany({ orderBy: { createdAt: "desc" }, take: 5 }),
     prisma.shipment.findMany({
       where: { NOT: { status: "Delivered" } },
       orderBy: { updatedAt: "desc" },
@@ -44,12 +41,11 @@ export default async function AdminDashboard() {
   ]);
 
   const cards = [
+    { label: "Total Leads", value: totalLeads, icon: Target, href: "/admin/leads", accent: newLeads > 0 },
     { label: "Shipments", value: shipments, icon: PackageSearch, href: "/admin/shipments" },
     { label: "Unread Messages", value: unread, icon: MessageSquare, href: "/admin/messages", accent: unread > 0 },
     { label: "Services", value: services, icon: Boxes, href: "/admin/services" },
     { label: "Destinations", value: destinations, icon: Globe2, href: "/admin/destinations" },
-    { label: "Testimonials", value: testimonials, icon: Star, href: "/admin/testimonials" },
-    { label: "FAQs", value: faqs, icon: HelpCircle, href: "/admin/faqs" },
   ];
 
   return (
@@ -90,32 +86,34 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        {/* Recent messages */}
+        {/* Recent leads */}
         <div className="rounded-2xl border border-border bg-surface p-6 shadow-soft">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-display text-lg font-bold text-brand-navy">
-              Recent Enquiries
+              Recent Leads
             </h2>
-            <Link href="/admin/messages" className="text-sm font-semibold text-brand hover:underline">
+            <Link href="/admin/leads" className="text-sm font-semibold text-brand hover:underline">
               View all
             </Link>
           </div>
-          {recentMessages.length === 0 ? (
+          {recentLeads.length === 0 ? (
             <div className="flex flex-col items-center py-8 text-muted-foreground">
               <Inbox className="h-10 w-10" />
-              <p className="mt-2 text-sm">No enquiries yet.</p>
+              <p className="mt-2 text-sm">No leads yet.</p>
             </div>
           ) : (
             <ul className="space-y-3">
-              {recentMessages.map((m) => (
-                <li key={m.id} className="flex items-start gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
-                  <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${m.read ? "bg-border" : "bg-accent"}`} />
+              {recentLeads.map((l) => (
+                <li key={l.id} className="flex items-start gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
+                  <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${l.status === "New" ? "bg-accent" : "bg-border"}`} />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-semibold text-brand-navy">{m.name}</span>
-                      <span className="text-xs text-muted-foreground">{formatDateTime(m.createdAt)}</span>
+                      <span className="font-semibold text-brand-navy">{l.name}</span>
+                      <span className="text-xs text-muted-foreground">{formatDate(l.createdAt)}</span>
                     </div>
-                    <p className="truncate text-sm text-muted-foreground">{m.message}</p>
+                    <p className="truncate text-sm text-muted-foreground">
+                      {l.source} · {l.message || l.destination || l.status}
+                    </p>
                   </div>
                 </li>
               ))}

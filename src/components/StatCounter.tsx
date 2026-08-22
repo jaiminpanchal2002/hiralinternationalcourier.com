@@ -33,7 +33,7 @@ export function StatCounter({
     <div ref={ref} className="text-center">
       <div className="font-display text-4xl font-extrabold text-white sm:text-5xl">
         {display}
-        <span className="text-accent-2">{suffix}</span>
+        <span className="text-gold">{suffix}</span>
       </div>
       <div className="mt-2 text-sm font-medium text-white/70">{label}</div>
     </div>

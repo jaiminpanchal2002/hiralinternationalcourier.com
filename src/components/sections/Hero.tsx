@@ -45,7 +45,7 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white/90 backdrop-blur"
           >
-            <Sparkles className="h-3.5 w-3.5 text-accent-2" />
+            <Sparkles className="h-3.5 w-3.5 text-gold" />
             Pardesh Parcel Seva · Door to Door
           </motion.div>
 
@@ -58,7 +58,7 @@ export function Hero() {
             Reliable Global
             <br />
             Shipping &{" "}
-            <span className="bg-gradient-to-r from-accent-2 via-accent to-white bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-gold-light via-gold to-white bg-clip-text text-transparent">
               Logistics
             </span>
           </motion.h1>
@@ -112,9 +112,9 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.4 }}
             className="mt-7 flex flex-wrap gap-x-6 gap-y-3 text-sm text-white/75"
           >
-            <li className="flex items-center gap-2"><ShieldCheck className="h-4.5 w-4.5 text-accent-2" /> Secure & Insured</li>
-            <li className="flex items-center gap-2"><Clock className="h-4.5 w-4.5 text-accent-2" /> On-Time Delivery</li>
-            <li className="flex items-center gap-2"><Globe2 className="h-4.5 w-4.5 text-accent-2" /> 200+ Countries</li>
+            <li className="flex items-center gap-2"><ShieldCheck className="h-4.5 w-4.5 text-gold" /> Secure & Insured</li>
+            <li className="flex items-center gap-2"><Clock className="h-4.5 w-4.5 text-gold" /> On-Time Delivery</li>
+            <li className="flex items-center gap-2"><Globe2 className="h-4.5 w-4.5 text-gold" /> 200+ Countries</li>
           </motion.ul>
         </div>
 
@@ -135,7 +135,7 @@ export function Hero() {
             <div className="absolute inset-12 rounded-full border border-dashed border-white/10" />
 
             {/* Globe */}
-            <div className="absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-brand to-brand-navy shadow-[inset_-20px_-20px_60px_rgba(0,0,0,0.4),0_30px_60px_-15px_rgba(0,166,224,0.5)]">
+            <div className="absolute left-1/2 top-1/2 h-52 w-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-brand to-brand-navy shadow-[inset_-20px_-20px_60px_rgba(0,0,0,0.4),0_30px_60px_-15px_rgba(21,97,110,0.55)]">
               <div className="absolute inset-0 grid-lines rounded-full opacity-40" />
               <Globe2 className="absolute left-1/2 top-1/2 h-40 w-40 -translate-x-1/2 -translate-y-1/2 text-white/20" strokeWidth={0.7} />
             </div>
@@ -150,8 +150,8 @@ export function Hero() {
                 strokeLinecap="round"
                 className="animate-dash"
               />
-              <circle cx="40" cy="300" r="6" fill="#38bdf8" />
-              <circle cx="360" cy="180" r="6" fill="#fff" />
+              <circle cx="40" cy="300" r="6" fill="#3fa3b3" />
+              <circle cx="360" cy="180" r="6" fill="#c6a23c" />
             </svg>
 
             {/* Floating plane */}
@@ -197,7 +197,7 @@ export function Hero() {
               <span className="text-lg">{f.e}</span> {f.c}
             </span>
           ))}
-          <span className="text-sm font-semibold text-accent-2">& many more…</span>
+          <span className="text-sm font-semibold text-gold">& many more…</span>
         </div>
       </div>
     </section>

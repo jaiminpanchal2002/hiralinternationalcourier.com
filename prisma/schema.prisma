@@ -132,6 +132,24 @@ model TrackingEvent {
   timestamp  DateTime @default(now())
 }
 
+/// Sales leads — captured from the website contact form, WhatsApp, Facebook,
+/// Instagram or added manually. Managed as a pipeline in the admin CRM.
+model Lead {
+  id          String   @id @default(cuid())
+  name        String
+  phone       String   @default("")
+  email       String   @default("")
+  source      String   @default("Website") // Website, WhatsApp, Facebook, Instagram, Phone, Manual, Referral
+  status      String   @default("New")      // New, Contacted, Quoted, Won, Lost
+  destination String   @default("")
+  message     String   @default("")
+  notes       String   @default("")
+  value       String   @default("")         // estimated deal value
+  external    String   @default("")         // external id from the source platform
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 /// Contact / quote-request submissions from the website.
 model ContactSubmission {
   id          String   @id @default(cuid())

@@ -13,6 +13,7 @@ import {
   Globe2,
   HelpCircle,
   BarChart3,
+  Target,
   LogOut,
   Menu,
   X,
@@ -23,6 +24,7 @@ import { cn } from "@/lib/utils";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
+  { href: "/admin/leads", label: "Leads", icon: Target },
   { href: "/admin/shipments", label: "Shipments", icon: PackageSearch },
   { href: "/admin/messages", label: "Messages", icon: MessageSquare },
   { href: "/admin/services", label: "Services", icon: Boxes },
@@ -37,10 +39,12 @@ export function AdminShell({
   children,
   admin,
   unread,
+  newLeads,
 }: {
   children: React.ReactNode;
   admin: { name: string; email: string };
   unread: number;
+  newLeads: number;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -75,6 +79,11 @@ export function AdminShell({
             {n.href === "/admin/messages" && unread > 0 && (
               <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1.5 text-xs font-bold text-white">
                 {unread}
+              </span>
+            )}
+            {n.href === "/admin/leads" && newLeads > 0 && (
+              <span className="ml-auto grid h-5 min-w-5 place-items-center rounded-full bg-accent px-1.5 text-xs font-bold text-white">
+                {newLeads}
               </span>
             )}
           </Link>

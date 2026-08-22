@@ -51,7 +51,7 @@ export function FieldRenderer({
             type="checkbox"
             name={field.name}
             defaultChecked={Boolean(value)}
-            className="h-5 w-5 rounded border-border text-brand accent-[#0b57c4]"
+            className="h-5 w-5 rounded border-border text-brand accent-[#15616e]"
           />
           {field.label}
         </label>

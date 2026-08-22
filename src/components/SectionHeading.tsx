@@ -21,7 +21,7 @@ export function SectionHeading({
           <span
             className={cn(
               "inline-block rounded-full px-3 py-1 text-xs font-bold uppercase tracking-widest",
-              dark ? "bg-white/10 text-accent-2" : "bg-brand/10 text-brand",
+              dark ? "bg-white/10 text-gold" : "bg-brand/10 text-brand",
             )}
           >
             {eyebrow}

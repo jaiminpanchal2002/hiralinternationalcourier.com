@@ -46,13 +46,13 @@ export default async function AboutPage() {
               <div className="absolute -left-4 -top-4 h-full w-full rounded-3xl bg-brand/10" />
               <div className="relative overflow-hidden rounded-3xl bg-hero-mesh p-10 text-white shadow-brand">
                 <div className="pointer-events-none absolute inset-0 grid-lines opacity-30" />
-                <Globe2 className="h-14 w-14 text-accent-2" />
+                <Globe2 className="h-14 w-14 text-gold" />
                 <h3 className="mt-5 font-display text-2xl font-bold">
                   Ahmedabad to the World
                 </h3>
                 <p className="mt-3 text-white/75">
                   From Shyam Elegance in New Sahibaug, we&apos;ve built a
-                  reputation as the go-to name — <span className="text-accent-2 font-semibold">જૂના અને જાણીતા રાણીપવાળા</span> — for
+                  reputation as the go-to name — <span className="text-gold font-semibold">જૂના અને જાણીતા રાણીપવાળા</span> — for
                   dependable overseas parcel and cargo delivery.
                 </p>
                 <div className="mt-8 grid grid-cols-2 gap-6">

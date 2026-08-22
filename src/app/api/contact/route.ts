@@ -29,6 +29,20 @@ export async function POST(request: Request) {
     }
 
     await prisma.contactSubmission.create({ data });
+
+    // Also capture it as a sales lead so it shows in the CRM pipeline.
+    await prisma.lead.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        destination: data.destination,
+        message: data.message,
+        source: "Website",
+        status: "New",
+      },
+    });
+
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("Contact submission failed:", error);

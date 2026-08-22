@@ -288,6 +288,18 @@ async function main() {
   });
   console.log(`✓ Sample shipments seeded: ${s1.awb}, ${s2.awb}`);
 
+  // ---- Sample leads (CRM demo) ----
+  await prisma.lead.deleteMany();
+  await prisma.lead.createMany({
+    data: [
+      { name: "Meena Trivedi", phone: "+919824012345", email: "meena@example.com", source: "WhatsApp", status: "New", destination: "Canada", message: "Want to send 10kg parcel to Toronto", value: "₹6,500" },
+      { name: "Sanjay Mehta", phone: "+919912345678", source: "Facebook", status: "Contacted", destination: "USA", message: "Enquiry from Facebook ad about sea cargo", value: "₹45,000" },
+      { name: "Ravi Patel", phone: "+447700900123", email: "ravi@example.co.uk", source: "Website", status: "Quoted", destination: "UK", message: "Documents to London, urgent", value: "₹3,200" },
+      { name: "Anita Shah", phone: "+61412345678", email: "anita@example.com", source: "Instagram", status: "Won", destination: "Australia", message: "Care package to Sydney", value: "₹8,900" },
+    ],
+  });
+  console.log("✓ Sample leads seeded");
+
   console.log("\n🎉 Seed complete.");
 }
 
