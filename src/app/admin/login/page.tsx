@@ -18,8 +18,8 @@ export default async function LoginPage() {
       <div className="pointer-events-none fixed inset-0 grid-lines opacity-30" />
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="grid h-16 w-16 place-items-center rounded-2xl bg-white/10 backdrop-blur">
-            <LogoMark className="h-11 w-11" variant="white" />
+          <div className="grid h-20 w-20 place-items-center rounded-2xl bg-white/10 backdrop-blur">
+            <LogoMark className="h-12" variant="white" />
           </div>
           <h1 className="mt-4 font-display text-2xl font-bold text-white">
             Hiral Admin

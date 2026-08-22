@@ -42,7 +42,7 @@ export function Navbar({ phone }: { phone: string }) {
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" aria-label="Hiral International Courier home">
-          <Logo variant={scrolled ? "color" : "color"} />
+          <Logo variant={scrolled ? "color" : "white"} />
         </Link>
 
         {/* Desktop links */}
