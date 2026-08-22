@@ -1,26 +1,205 @@
 @import "tailwindcss";
 
+/* ============================================================
+   HIRAL INTERNATIONAL COURIER — Design Tokens
+   Brand: royal blue + sky accent (from the logo), trust & authority.
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7faff;
+  --surface: #ffffff;
+  --foreground: #0d1b34;
+  --muted: #eef4fd;
+  --muted-foreground: #5b6b86;
+  --border: #dce7f7;
+
+  /* Brand blues */
+  --brand: #0b57c4; /* royal blue */
+  --brand-600: #0a4ea8;
+  --brand-700: #083f89;
+  --brand-navy: #062c63; /* deep navy */
+  --brand-ink: #041e46;
+  --accent: #00a6e0; /* sky/cyan accent */
+  --accent-2: #38bdf8;
+  --on-brand: #ffffff;
+
+  --gold: #f2b705; /* subtle highlight (from banner) */
+  --success: #16a34a;
+  --warning: #d97706;
+  --danger: #dc2626;
+
+  --ring: #0b57c4;
+
+  --radius: 0.9rem;
+  --shadow-brand: 0 20px 45px -20px rgba(11, 87, 196, 0.45);
+  --shadow-soft: 0 12px 40px -18px rgba(6, 44, 99, 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+
+  --color-brand: var(--brand);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-ink: var(--brand-ink);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-on-brand: var(--on-brand);
+  --color-gold: var(--gold);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-ring: var(--ring);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-lg: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+::selection {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* ---------- Reusable brand utilities ---------- */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(100deg, var(--brand) 0%, var(--accent) 60%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-brand-gradient {
+    background: linear-gradient(120deg, var(--brand-navy) 0%, var(--brand) 55%, var(--brand-600) 100%);
+  }
+
+  .bg-hero-mesh {
+    background:
+      radial-gradient(60% 55% at 15% 15%, rgba(0, 166, 224, 0.35) 0%, transparent 60%),
+      radial-gradient(55% 55% at 85% 20%, rgba(56, 189, 248, 0.28) 0%, transparent 55%),
+      radial-gradient(70% 70% at 60% 100%, rgba(4, 30, 70, 0.9) 0%, transparent 70%),
+      linear-gradient(125deg, #041e46 0%, #062c63 45%, #0b57c4 100%);
+  }
+
+  .glass {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .glass-light {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
+  }
+
+  .shadow-brand {
+    box-shadow: var(--shadow-brand);
+  }
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+}
+
+/* ---------- Keyframe animations ---------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+@keyframes float-y-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-22px); }
+}
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+@keyframes dash-move {
+  to { stroke-dashoffset: -1000; }
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes shimmer {
+  100% { background-position: 200% 0; }
+}
+
+.animate-float { animation: float-y 6s ease-in-out infinite; }
+.animate-float-slow { animation: float-y-slow 9s ease-in-out infinite; }
+.animate-spin-slow { animation: spin-slow 30s linear infinite; }
+.animate-dash { stroke-dasharray: 8 10; animation: dash-move 40s linear infinite; }
+.animate-pulse-glow { animation: pulse-glow 4s ease-in-out infinite; }
+.animate-marquee { animation: marquee 32s linear infinite; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Nice focus rings for keyboard users */
+:where(a, button, input, textarea, select):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: var(--muted); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(var(--brand), var(--brand-navy));
+  border-radius: 999px;
+  border: 2px solid var(--muted);
 }

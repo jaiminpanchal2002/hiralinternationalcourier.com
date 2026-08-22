@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Hiral International Courier Service — Website
 
-## Getting Started
+A modern, animated, fully **admin-managed** website for Hiral International Courier Service (Ahmedabad).
+Built with Next.js 16, TypeScript, Tailwind CSS v4, Framer Motion and Prisma.
 
-First, run the development server:
+Everything on the public site — company details, services, destinations, testimonials,
+FAQs, stats, and shipment tracking — is editable from the admin dashboard. No code edits needed.
+
+---
+
+## Quick start
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run db:migrate     # create the SQLite database
+npm run db:seed        # load starter content + admin user + demo shipments
+npm run dev            # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Admin dashboard
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- URL: **/admin** (login at **/admin/login**)
+- Default email: `admin@hiralinternational02.com`
+- Default password: `Hiral@2025`  ← **change this** under Settings → Change Password after first login.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+From the dashboard you can manage: Shipments (+ tracking timeline), Enquiries/messages,
+Services, Destinations, Testimonials, FAQs, Statistics, and all Company/Contact/SEO settings.
 
-## Learn More
+## Tracking
 
-To learn more about Next.js, take a look at the following resources:
+Customers track by AWB number on **/track** (or the homepage bar).
+Two demo shipments are seeded: `HIRAL10001` (in transit) and `HIRAL10002` (delivered).
+Create real shipments in the admin, then add timeline updates from each shipment's "Timeline" page.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Tech & structure
 
-## Deploy on Vercel
+| Area | Choice |
+|------|--------|
+| Framework | Next.js 16 (App Router, RSC, Server Actions) |
+| Styling | Tailwind CSS v4 + custom design tokens (`src/app/globals.css`) |
+| Animation | Framer Motion (3D hero, scroll reveals, counters, carousels) |
+| Database | Prisma + SQLite (`prisma/schema.prisma`) |
+| Auth | JWT session cookie (`jose` + `bcryptjs`), guarded by `src/proxy.ts` |
+| SEO | Metadata API, JSON-LD, `sitemap.ts`, `robots.ts` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+  app/
+    (site)/         Public pages (home, about, services, destinations, track, contact)
+    admin/          Dashboard (login + panel + server actions)
+    api/            Login/logout + contact endpoints
+  components/       UI + sections + admin components
+  lib/              prisma, auth, data access, utils
+prisma/             schema + seed
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Useful scripts
+
+```bash
+npm run db:studio   # visual database browser (Prisma Studio)
+npm run db:seed     # re-seed content
+npm run db:reset    # wipe + re-migrate + re-seed
+npm run build       # production build
+npm run start       # run the production build
+```
+
+---
+
+## Notes / next steps
+
+- **Logo:** the header/footer logo is a scalable SVG recreation of the brand mark. To use the
+  exact raster logo, drop `public/logo.png` and swap `<Logo>`/`<LogoMark>` for `next/image`.
+- **Production database:** SQLite is used for simplicity. For hosting (e.g. Vercel), switch the
+  Prisma `datasource` to PostgreSQL and set `DATABASE_URL` — no application code changes needed.
+- **Secrets:** set a strong `AUTH_SECRET` and `NEXT_PUBLIC_SITE_URL` in production `.env`.
+- **Email notifications:** contact enquiries are stored in the DB and shown in the admin. To also
+  email them, add a provider (e.g. Resend/Nodemailer) inside `src/app/api/contact/route.ts`.

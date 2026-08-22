@@ -1,0 +1,145 @@
+// Hiral International Courier Service — data model
+// All site content is admin-managed (dynamic), stored in SQLite for local/dev.
+// Swap the datasource to postgresql/mysql for production without code changes.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Admin users who can sign in to the dashboard.
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+/// Singleton-ish key/value store for global site settings (company info, contact, SEO).
+model Setting {
+  id        Int      @id @default(1)
+  // Company / brand
+  companyName   String  @default("Hiral International Courier Service")
+  tagline       String  @default("Reliable Global Shipping & Logistics Solutions")
+  description   String  @default("Connecting Ahmedabad to the world. Fast, secure and hassle-free international courier and cargo services.")
+  // Contact
+  phonePrimary  String  @default("+91 91570 45048")
+  phoneSecondary String @default("+91 91571 52701")
+  email         String  @default("info@hiralinternational02.com")
+  addressLine   String  @default("Shyam Elegance, Near Royal Arcade, New Sahibaug, Ahmedabad 382330, Gujarat, India")
+  mapEmbedUrl   String  @default("https://www.google.com/maps?q=Sahibaug+Ahmedabad&output=embed")
+  businessHours String  @default("Mon–Sat: 9:00 AM – 8:00 PM | Sun: Closed")
+  // Social
+  whatsapp      String  @default("+919157045048")
+  facebook      String  @default("")
+  instagram     String  @default("")
+  // SEO
+  metaTitle       String @default("Hiral International Courier Service | Ahmedabad to USA, UK, Canada, Australia")
+  metaDescription String @default("Best international courier & cargo service in Ahmedabad. Door-to-door delivery to USA, UK, Canada, Australia & more. Air & sea cargo, custom clearance, secure packaging.")
+  metaKeywords    String @default("international courier Ahmedabad, courier to USA, courier to UK, cargo service, parcel service Ahmedabad, sea cargo, air cargo, door to door delivery")
+  updatedAt     DateTime @updatedAt
+}
+
+/// Services offered (air/sea cargo, custom clearance, packaging, etc.).
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  summary     String
+  description String
+  icon        String   @default("Package") // lucide-react icon name
+  features    String   @default("[]")      // JSON array of strings
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+/// Countries / destinations served (for the "we deliver to" grid).
+model Destination {
+  id          String  @id @default(cuid())
+  name        String
+  code        String  @default("") // ISO code for flag, e.g. "us"
+  transitDays String  @default("")
+  popular     Boolean @default(false)
+  order       Int     @default(0)
+  published   Boolean @default(true)
+}
+
+/// Homepage animated stat counters.
+model Stat {
+  id     String @id @default(cuid())
+  label  String
+  value  String // e.g. "4+", "50K+"
+  suffix String @default("")
+  order  Int    @default(0)
+}
+
+/// Customer testimonials / reviews.
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String   @default("")
+  quote     String
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+/// FAQ entries for the Track & Trace / support pages.
+model Faq {
+  id        String  @id @default(cuid())
+  question  String
+  answer    String
+  category  String  @default("General")
+  order     Int     @default(0)
+  published Boolean @default(true)
+}
+
+/// Shipments that customers track by AWB number.
+model Shipment {
+  id                String          @id @default(cuid())
+  awb               String          @unique
+  status            String          @default("Booked") // Booked, In Transit, Customs, Out for Delivery, Delivered, On Hold
+  senderName        String
+  receiverName      String
+  origin            String
+  destination       String
+  service           String          @default("Air Cargo")
+  weight            String          @default("")
+  estimatedDelivery DateTime?
+  currentLocation   String          @default("")
+  events            TrackingEvent[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+}
+
+/// Timeline events attached to a shipment.
+model TrackingEvent {
+  id         String   @id @default(cuid())
+  shipment   Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  shipmentId String
+  status     String
+  location   String
+  note       String   @default("")
+  timestamp  DateTime @default(now())
+}
+
+/// Contact / quote-request submissions from the website.
+model ContactSubmission {
+  id          String   @id @default(cuid())
+  name        String
+  email       String
+  phone       String
+  destination String   @default("")
+  message     String
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
