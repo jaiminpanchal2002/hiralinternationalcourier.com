@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
-import { Logo } from "./Logo";
+import { LogoCard } from "./Logo";
 
 function FacebookIcon({ className }: { className?: string }) {
   return (
@@ -40,7 +40,7 @@ export function Footer({ settings }: { settings: Settings }) {
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
-            <Logo variant="white" />
+            <LogoCard height="h-16" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
               Ahmedabad&apos;s trusted partner for reliable, door-to-door
               international courier & cargo — connecting you to the world.

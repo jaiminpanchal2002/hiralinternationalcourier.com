@@ -97,7 +97,9 @@ export function AdminShell({
       {/* Sidebar (desktop) */}
       <aside className="fixed inset-y-0 left-0 hidden w-64 flex-col bg-brand-ink p-5 lg:flex">
         <Link href="/admin" className="mb-8 flex items-center gap-2.5">
-          <LogoMark className="h-9" variant="white" />
+          <span className="inline-flex rounded-lg bg-white p-1.5">
+            <LogoMark className="h-7" />
+          </span>
           <span className="font-display text-lg font-bold text-white">
             Hiral Admin
           </span>
@@ -123,7 +125,9 @@ export function AdminShell({
       {/* Mobile top bar */}
       <div className="sticky top-0 z-30 flex items-center justify-between bg-brand-ink px-4 py-3 lg:hidden">
         <Link href="/admin" className="flex items-center gap-2">
-          <LogoMark className="h-8" variant="white" />
+          <span className="inline-flex rounded-lg bg-white p-1">
+            <LogoMark className="h-6" />
+          </span>
           <span className="font-display font-bold text-white">Hiral Admin</span>
         </Link>
         <button onClick={() => setOpen(true)} aria-label="Open menu" className="text-white">

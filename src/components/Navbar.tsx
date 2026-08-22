@@ -34,15 +34,15 @@ export function Navbar({ phone }: { phone: string }) {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        "fixed inset-x-0 top-0 z-50 border-b transition-all duration-300",
         scrolled
-          ? "bg-white/85 shadow-soft backdrop-blur-lg"
-          : "bg-transparent",
+          ? "border-border bg-surface/90 shadow-soft backdrop-blur-lg"
+          : "border-transparent bg-surface/80 backdrop-blur-md",
       )}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2.5 sm:px-6 lg:px-8">
         <Link href="/" aria-label="Hiral International Courier home">
-          <Logo variant={scrolled ? "color" : "white"} />
+          <Logo />
         </Link>
 
         {/* Desktop links */}

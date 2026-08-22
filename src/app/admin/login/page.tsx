@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { LoginForm } from "@/components/admin/LoginForm";
-import { LogoMark } from "@/components/Logo";
+import { LogoCard } from "@/components/Logo";
 
 export const metadata: Metadata = {
   title: "Admin Login",
@@ -18,9 +18,7 @@ export default async function LoginPage() {
       <div className="pointer-events-none fixed inset-0 grid-lines opacity-30" />
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="grid h-20 w-20 place-items-center rounded-2xl bg-white/10 backdrop-blur">
-            <LogoMark className="h-12" variant="white" />
-          </div>
+          <LogoCard height="h-16" />
           <h1 className="mt-4 font-display text-2xl font-bold text-white">
             Hiral Admin
           </h1>
