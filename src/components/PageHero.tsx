@@ -20,7 +20,7 @@ export function PageHero({
           <ChevronRight className="h-4 w-4" />
           <span className="text-white">{crumb}</span>
         </nav>
-        <h1 className="mt-5 font-display text-4xl font-extrabold sm:text-5xl">
+        <h1 className="mt-5 font-display fluid-title font-extrabold">
           {title}
         </h1>
         {subtitle && (

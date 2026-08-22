@@ -157,6 +157,38 @@ h1, h2, h3, h4, h5 {
       linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
     background-size: 44px 44px;
   }
+
+  /* Fluid, size-aware typography (scales smoothly across every screen). */
+  .fluid-hero {
+    font-size: clamp(2.25rem, 1.4rem + 3.8vw, 3.75rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+  .fluid-title {
+    font-size: clamp(1.9rem, 1.3rem + 2.6vw, 3rem);
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+  }
+  .fluid-h2 {
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.25rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Press feedback — primary actions scale slightly on press (Emil Kowalski). */
+[class*="bg-brand-gradient"]:active,
+[class*="bg-gold-gradient"]:active,
+.press-scale:active {
+  transform: scale(0.97);
+}
+
+/* Don't leave hover-lift stuck after a tap on touch devices. */
+@media (hover: none) {
+  .hover\:-translate-y-1:hover,
+  .hover\:-translate-y-0\.5:hover {
+    transform: none;
+  }
 }
 
 /* ---------- Keyframe animations ---------- */

@@ -53,7 +53,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.05 }}
-            className="mt-5 font-display text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-6xl"
+            className="mt-5 font-display fluid-hero font-extrabold"
           >
             Reliable Global
             <br />
@@ -82,7 +82,7 @@ export function Hero() {
           >
             <Link
               href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-brand-navy shadow-brand transition-transform hover:-translate-y-0.5"
+              className="press-scale group inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 font-semibold text-brand-navy shadow-brand transition-transform hover:-translate-y-0.5"
             >
               Get a Free Quote
               <ArrowRight className="h-4.5 w-4.5 transition-transform group-hover:translate-x-1" />
