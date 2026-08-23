@@ -75,18 +75,145 @@ Done — your site is live on your domain, on a free plan that scales.
 
 ---
 
-## Option B — Hostinger VPS / Cloud (if you upgrade)
+## Option B — Everything on Hostinger (VPS) — full guide
 
-1. Upgrade to a **VPS** or **Cloud** plan (these include Node.js).
-2. On the server: install Node 20+, clone the repo, `npm install`.
-3. Set the same environment variables (use MySQL/Postgres, not SQLite).
-4. `npx prisma migrate deploy && npm run db:seed && npm run build`.
-5. Run with **PM2**: `pm2 start "npm run start" --name hiral` (port 3000).
-6. Put **Nginx** in front as a reverse proxy (80/443 → 3000) with SSL
-   (Certbot / Hostinger SSL).
-7. Point the domain's A record to the VPS IP.
+> Requires a **Hostinger VPS** (KVM plan). Shared "Premium/Business Web Hosting"
+> cannot run Node.js and will not work. On a VPS, the app **and** its PostgreSQL
+> database both live on the one Hostinger server.
 
-Ask me and I'll provide the exact Nginx config and PM2 setup.
+### 1. Buy the VPS
+hPanel → **VPS → Get VPS** → **KVM 1** is enough (1 vCPU, 4 GB RAM).
+OS template: **Ubuntu 24.04** (plain). Set a **root password**. Note the **VPS IP**.
+
+### 2. Connect (SSH)
+hPanel → VPS → **Browser terminal**, or from your PC:
+```bash
+ssh root@YOUR_VPS_IP
+```
+
+### 3. Install Node.js 20, git, Nginx, PostgreSQL
+```bash
+apt update && apt upgrade -y
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+apt install -y nodejs git nginx postgresql
+npm install -g pm2
+node -v            # should print v20.x
+```
+
+### 4. Create the database
+```bash
+sudo -u postgres psql <<'SQL'
+CREATE DATABASE hiral;
+CREATE USER hiraluser WITH ENCRYPTED PASSWORD 'ChangeThisStrongPass';
+GRANT ALL PRIVILEGES ON DATABASE hiral TO hiraluser;
+\c hiral
+GRANT ALL ON SCHEMA public TO hiraluser;
+SQL
+```
+Connection string:
+`postgresql://hiraluser:ChangeThisStrongPass@localhost:5432/hiral?schema=public`
+
+### 5. Get the code
+```bash
+mkdir -p /var/www && cd /var/www
+git clone https://github.com/jaiminpanchal2002/hiralinternationalcourier.com.git
+cd hiralinternationalcourier.com
+```
+
+### 6. Environment file
+```bash
+nano .env
+```
+Paste (edit the values):
+```
+DATABASE_URL="postgresql://hiraluser:ChangeThisStrongPass@localhost:5432/hiral?schema=public"
+AUTH_SECRET="a-long-random-string-30-chars-plus"
+NEXT_PUBLIC_SITE_URL="https://hiralinternationalcourier.com"
+LEAD_WEBHOOK_SECRET="another-random-string"
+ADMIN_EMAIL="admin@hiralinternational02.com"
+ADMIN_PASSWORD="your-strong-admin-password"
+ADMIN_NAME="Hiral Admin"
+```
+Save: `Ctrl+O`, `Enter`, `Ctrl+X`.
+
+### 7. Build & seed
+```bash
+npm install
+npx prisma db push      # creates all tables
+npm run db:seed         # loads content + admin user
+npm run build
+```
+
+### 8. Run with PM2 (keeps it alive + auto-starts on reboot)
+```bash
+pm2 start "npm run start" --name hiral
+pm2 save
+pm2 startup             # run the command it prints back
+```
+The app now runs on `http://localhost:3000` on the server.
+
+### 9. Nginx reverse proxy (port 80 → 3000)
+```bash
+nano /etc/nginx/sites-available/hiral
+```
+Paste:
+```nginx
+server {
+    listen 80;
+    server_name hiralinternationalcourier.com www.hiralinternationalcourier.com;
+    location / {
+        proxy_pass http://localhost:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+Enable it:
+```bash
+ln -s /etc/nginx/sites-available/hiral /etc/nginx/sites-enabled/
+rm -f /etc/nginx/sites-enabled/default
+nginx -t && systemctl restart nginx
+```
+
+### 10. Point the domain at the VPS
+hPanel → **Domains → hiralinternationalcourier.com**. If it says *Pending
+setup*, click **Set up** and choose **use Hostinger nameservers**. Then
+**DNS / Nameservers** → add:
+- **A** record: `@` → `YOUR_VPS_IP`
+- **A** record: `www` → `YOUR_VPS_IP`
+
+### 11. Enable HTTPS (free SSL)
+Once DNS points to the VPS (check with `ping hiralinternationalcourier.com`):
+```bash
+apt install -y certbot python3-certbot-nginx
+certbot --nginx -d hiralinternationalcourier.com -d www.hiralinternationalcourier.com
+```
+Choose "redirect HTTP → HTTPS". Auto-renewal is configured.
+
+### 12. Firewall (optional but recommended)
+```bash
+ufw allow OpenSSH
+ufw allow 'Nginx Full'
+ufw enable
+```
+
+✅ Live at **https://hiralinternationalcourier.com**, admin at **/admin**.
+
+### Updating later
+```bash
+cd /var/www/hiralinternationalcourier.com
+git pull
+npm install
+npx prisma db push
+npm run build
+pm2 restart hiral
+```
 
 ---
 
