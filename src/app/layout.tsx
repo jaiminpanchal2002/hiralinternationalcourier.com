@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lexend, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import { getSettings } from "@/lib/data";
 
 const display = Lexend({
   variable: "--font-display",
@@ -62,22 +63,59 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   alternates: { canonical: SITE_URL },
+  applicationName: "Hiral International Courier",
+  category: "Logistics & Courier Services",
+  // Paste the token from Google Search Console (Settings → Ownership → HTML tag)
+  // into NEXT_PUBLIC_GOOGLE_VERIFICATION to auto-verify the domain.
+  verification: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION }
+    : undefined,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "MovingCompany",
+  // Pull live contact/social info so structured data stays in sync with the
+  // admin panel. Falls back to defaults if the DB is unreachable at build time.
+  let settings: Awaited<ReturnType<typeof getSettings>> | null = null;
+  try {
+    settings = await getSettings();
+  } catch {
+    settings = null;
+  }
+
+  // Social profile URLs Google uses to confirm this is one real entity.
+  const sameAs = [settings?.facebook, settings?.instagram].filter(
+    (u): u is string => typeof u === "string" && u.startsWith("http"),
+  );
+
+  const localBusiness = {
+    "@type": ["MovingCompany", "LocalBusiness"],
+    "@id": `${SITE_URL}/#business`,
     name: "Hiral International Courier Service",
-    image: `${SITE_URL}/logo.png`,
-    "@id": SITE_URL,
+    // Every way people type the brand → all map to this one business.
+    alternateName: [
+      "Hiral",
+      "Hiral Courier",
+      "Hiral International",
+      "Hiral International Courier",
+      "Hiral Courier Ahmedabad",
+      "Hiral International Courier & Cargo",
+    ],
+    image: `${SITE_URL}/logo-full.png`,
+    logo: `${SITE_URL}/logo-full.png`,
     url: SITE_URL,
-    telephone: "+91-91570-45048",
+    telephone: settings?.phonePrimary ?? "+91-91570-45048",
+    email: settings?.email ?? "info@hiralinternational02.com",
     priceRange: "₹₹",
     address: {
       "@type": "PostalAddress",
@@ -90,7 +128,20 @@ export default function RootLayout({
     areaServed: ["United States", "United Kingdom", "Canada", "Australia", "Worldwide"],
     description:
       "International courier and cargo service in Ahmedabad offering door-to-door delivery worldwide.",
+    ...(sameAs.length ? { sameAs } : {}),
   };
+
+  const website = {
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    url: SITE_URL,
+    name: "Hiral International Courier",
+    alternateName: ["Hiral", "Hiral International", "Hiral International Courier Service"],
+    publisher: { "@id": `${SITE_URL}/#business` },
+    inLanguage: "en-IN",
+  };
+
+  const jsonLd = { "@context": "https://schema.org", "@graph": [localBusiness, website] };
 
   return (
     <html
