@@ -2,6 +2,12 @@ import type { Metadata } from "next";
 import { Lexend, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import { getSettings } from "@/lib/data";
+import {
+  SITE_URL,
+  BUSINESS_EMAIL,
+  BUSINESS_GEO,
+  BUSINESS_MAP_URL,
+} from "@/lib/seo";
 
 const display = Lexend({
   variable: "--font-display",
@@ -17,31 +23,15 @@ const body = Source_Sans_3({
   display: "swap",
 });
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://hiralinternationalcourier.com";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Hiral International Courier Service | Ahmedabad to USA, UK, Canada, Australia",
+      "International Courier Service in Ahmedabad | Hiral International Courier",
     template: "%s | Hiral International Courier",
   },
   description:
-    "Best international courier & cargo service in Ahmedabad. Reliable door-to-door delivery to USA, UK, Canada, Australia & 200+ countries. Air & sea cargo, custom clearance & secure packaging.",
-  keywords: [
-    "international courier Ahmedabad",
-    "courier service to USA",
-    "courier to UK",
-    "courier to Canada",
-    "courier to Australia",
-    "parcel service Ahmedabad",
-    "air cargo Ahmedabad",
-    "sea cargo",
-    "door to door delivery",
-    "Hiral International Courier",
-    "Pardesh Parcel Seva",
-  ],
+    "Door-to-door international courier from Ahmedabad to the USA, UK, Canada, Australia, Dubai & 200+ countries. Air & sea cargo, customs, packing — Pardesh Parcel Seva.",
   authors: [{ name: "Hiral International Courier Service" }],
   creator: "Hiral International Courier Service",
   openGraph: {
@@ -71,7 +61,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  alternates: { canonical: SITE_URL },
   applicationName: "Hiral International Courier",
   category: "Logistics & Courier Services",
   // Paste the token from Google Search Console (Settings → Ownership → HTML tag)
@@ -94,12 +83,19 @@ export default async function RootLayout({
   }
 
   // Social profile URLs Google uses to confirm this is one real entity.
-  const sameAs = [settings?.facebook, settings?.instagram].filter(
-    (u): u is string => typeof u === "string" && u.startsWith("http"),
-  );
+  const sameAs = [
+    settings?.facebook,
+    settings?.instagram,
+    process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL,
+  ].filter((u): u is string => typeof u === "string" && u.startsWith("http"));
+
+  const businessEmail =
+    settings?.email && !settings.email.includes("hiralinternational02.com")
+      ? settings.email
+      : BUSINESS_EMAIL;
 
   const localBusiness = {
-    "@type": ["MovingCompany", "LocalBusiness"],
+    "@type": "LocalBusiness",
     "@id": `${SITE_URL}/#business`,
     name: "Hiral International Courier Service",
     // Every way people type the brand → all map to this one business.
@@ -115,8 +111,29 @@ export default async function RootLayout({
     logo: `${SITE_URL}/logo-full.png`,
     url: SITE_URL,
     telephone: settings?.phonePrimary ?? "+91-91570-45048",
-    email: settings?.email ?? "info@hiralinternational02.com",
+    email: businessEmail,
     priceRange: "₹₹",
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: BUSINESS_GEO.latitude,
+      longitude: BUSINESS_GEO.longitude,
+    },
+    hasMap: BUSINESS_MAP_URL,
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        opens: "09:00",
+        closes: "20:00",
+      },
+    ],
     address: {
       "@type": "PostalAddress",
       streetAddress: "Shyam Elegance, Near Royal Arcade, New Sahibaug",

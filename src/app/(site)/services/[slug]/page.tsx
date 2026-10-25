@@ -1,12 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check, ArrowRight, ArrowLeft, PhoneCall } from "lucide-react";
+import { Check, ArrowRight, ArrowLeft, PhoneCall, MessageCircle } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { Icon } from "@/components/Icon";
+import { FaqAccordion } from "@/components/FaqAccordion";
 import { Reveal } from "@/components/motion/Reveal";
+import { JsonLd } from "@/components/JsonLd";
 import { getService, getServices, getSettings } from "@/lib/data";
 import { parseFeatures } from "@/lib/utils";
+import {
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+  canonicalPath,
+  serviceJsonLd,
+} from "@/lib/seo";
+import {
+  SERVICE_SEO,
+  SERVICE_META,
+  SERVICE_H1,
+} from "@/lib/seo-content";
 
 export async function generateStaticParams() {
   const services = await getServices();
@@ -21,9 +34,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await getService(slug);
   if (!service) return { title: "Service Not Found" };
+  const seo = SERVICE_META[slug];
+  const title =
+    seo?.title ?? `${service.title} | Hiral International Courier`;
+  const description = seo?.description ?? service.summary;
   return {
-    title: `${service.title} — International Courier Service`,
-    description: service.summary,
+    title: { absolute: title },
+    description,
+    alternates: canonicalPath(`/services/${slug}`),
   };
 }
 
@@ -42,10 +60,31 @@ export default async function ServiceDetailPage({
 
   const features = parseFeatures(service.features);
   const others = all.filter((s) => s.slug !== slug).slice(0, 3);
+  const seoBlock = SERVICE_SEO[slug];
+  const h1 = SERVICE_H1[slug] ?? service.title;
+  const wa = settings.whatsapp.replace(/[^\d]/g, "");
+
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Services", path: "/services" },
+    { name: service.title, path: `/services/${slug}` },
+  ]);
 
   return (
     <>
-      <PageHero crumb={service.title} title={service.title} subtitle={service.summary} />
+      <JsonLd data={breadcrumbs} />
+      <JsonLd
+        data={serviceJsonLd({
+          title: service.title,
+          slug: service.slug,
+          summary: service.summary,
+        })}
+      />
+      {seoBlock?.faqs.length ? (
+        <JsonLd data={faqPageJsonLd(seoBlock.faqs)} />
+      ) : null}
+
+      <PageHero crumb={service.title} title={h1} subtitle={service.summary} />
 
       <section className="py-20 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 px-4 sm:px-6 lg:grid-cols-3 lg:px-8">
@@ -67,6 +106,43 @@ export default async function ServiceDetailPage({
               </p>
             </Reveal>
 
+            {seoBlock?.sections.map((sec, i) => (
+              <Reveal key={sec.title} delay={0.06 + i * 0.04}>
+                <h2 className="mt-10 font-display text-xl font-bold text-brand-navy sm:text-2xl">
+                  {sec.title}
+                </h2>
+                <p className="mt-3 leading-relaxed text-muted-foreground">
+                  {sec.body}
+                  {slug === "personal-parcels" && i === 0 ? (
+                    <>
+                      {" "}
+                      See also our{" "}
+                      <Link
+                        href="/destinations"
+                        className="font-semibold text-brand hover:underline"
+                      >
+                        courier destinations from Ahmedabad
+                      </Link>
+                      .
+                    </>
+                  ) : null}
+                  {slug === "air-cargo" && i === 0 ? (
+                    <>
+                      {" "}
+                      Compare{" "}
+                      <Link
+                        href="/services/sea-cargo"
+                        className="font-semibold text-brand hover:underline"
+                      >
+                        sea cargo from Ahmedabad
+                      </Link>{" "}
+                      for heavier, non-urgent loads.
+                    </>
+                  ) : null}
+                </p>
+              </Reveal>
+            ))}
+
             {features.length > 0 && (
               <Reveal delay={0.1}>
                 <div className="mt-10 rounded-3xl border border-border bg-muted/50 p-8">
@@ -86,6 +162,25 @@ export default async function ServiceDetailPage({
                 </div>
               </Reveal>
             )}
+
+            {seoBlock?.faqs.length ? (
+              <Reveal delay={0.12}>
+                <div className="mt-12">
+                  <h2 className="font-display text-xl font-bold text-brand-navy">
+                    Frequently asked questions
+                  </h2>
+                  <div className="mt-6">
+                    <FaqAccordion
+                      items={seoBlock.faqs.map((f, i) => ({
+                        id: `${slug}-faq-${i}`,
+                        question: f.question,
+                        answer: f.answer,
+                      }))}
+                    />
+                  </div>
+                </div>
+              </Reveal>
+            ) : null}
 
             <Reveal delay={0.15}>
               <Link
@@ -117,6 +212,14 @@ export default async function ServiceDetailPage({
                   className="mt-3 flex items-center justify-center gap-2 rounded-full border border-white/25 px-5 py-3 font-semibold text-white transition-colors hover:bg-white/10"
                 >
                   <PhoneCall className="h-4 w-4" /> {settings.phonePrimary}
+                </a>
+                <a
+                  href={`https://wa.me/${wa}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 flex items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3 font-semibold text-white transition-transform hover:-translate-y-0.5"
+                >
+                  <MessageCircle className="h-4 w-4" fill="white" /> WhatsApp
                 </a>
               </div>
             </Reveal>

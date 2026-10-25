@@ -1,18 +1,34 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/prisma";
+import { SITE_URL } from "@/lib/seo";
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://hiralinternationalcourier.com";
+const STATIC_PATHS = [
+  "",
+  "/about",
+  "/services",
+  "/track",
+  "/contact",
+  "/destinations",
+] as const;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const routes = ["", "/about", "/services", "/track", "/contact", "/destinations"].map(
-    (path) => ({
-      url: `${SITE_URL}${path}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: path === "" ? 1 : 0.8,
-    }),
-  );
+  let siteLastMod = new Date("2026-10-25");
+  try {
+    const settings = await prisma.setting.findUnique({
+      where: { id: 1 },
+      select: { updatedAt: true },
+    });
+    if (settings?.updatedAt) siteLastMod = settings.updatedAt;
+  } catch {
+    // DB not reachable at build time — use audit date fallback.
+  }
+
+  const routes = STATIC_PATHS.map((path) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified: siteLastMod,
+    changeFrequency: "weekly" as const,
+    priority: path === "" ? 1 : 0.8,
+  }));
 
   let services: { slug: string; updatedAt: Date }[] = [];
   try {

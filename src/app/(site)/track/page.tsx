@@ -14,12 +14,15 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { Reveal } from "@/components/motion/Reveal";
 import { getShipmentByAwb, getFaqs } from "@/lib/data";
 import { formatDate, formatDateTime, statusStyle } from "@/lib/utils";
+import { pageMetadata, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Track & Trace Your Shipment",
+export const metadata: Metadata = pageMetadata({
+  title: "Track Your Shipment | Hiral International Courier",
   description:
-    "Track your Hiral International Courier shipment in real time. Enter your AWB number to see live status, location and delivery updates.",
-};
+    "Track & trace your Hiral International Courier parcel. Enter your AWB number for live status from Ahmedabad pickup to door delivery abroad.",
+  path: "/track",
+});
 
 export default async function TrackPage({
   searchParams,
@@ -32,6 +35,20 @@ export default async function TrackPage({
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Track", path: "/track" },
+        ])}
+      />
+      {faqs.length > 0 && (
+        <JsonLd
+          data={faqPageJsonLd(
+            faqs.map((f) => ({ question: f.question, answer: f.answer })),
+          )}
+        />
+      )}
+
       <PageHero
         crumb="Track"
         title="Track & Trace"

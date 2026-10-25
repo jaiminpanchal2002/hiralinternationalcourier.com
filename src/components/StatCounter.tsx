@@ -17,10 +17,12 @@ export function StatCounter({
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-40px" });
   const mv = useMotionValue(0);
-  const [display, setDisplay] = useState("0");
+  const initial = String(Math.round(target));
+  const [display, setDisplay] = useState(initial);
 
   useEffect(() => {
     if (!inView) return;
+    setDisplay("0");
     const controls = animate(mv, target, {
       duration: 1.8,
       ease: [0.22, 1, 0.36, 1],

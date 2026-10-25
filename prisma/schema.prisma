@@ -31,7 +31,7 @@ model Setting {
   // Contact
   phonePrimary  String  @default("+91 91570 45048")
   phoneSecondary String @default("+91 91571 52701")
-  email         String  @default("info@hiralinternational02.com")
+  email         String  @default("info@hiralinternationalcourier.com")
   addressLine   String  @default("Shyam Elegance, Near Royal Arcade, New Sahibaug, Ahmedabad 382330, Gujarat, India")
   mapEmbedUrl   String  @default("https://www.google.com/maps?q=Sahibaug+Ahmedabad&output=embed")
   businessHours String  @default("Mon–Sat: 9:00 AM – 8:00 PM | Sun: Closed")
