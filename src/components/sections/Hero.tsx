@@ -55,23 +55,27 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.05 }}
             className="mt-5 font-display fluid-hero font-extrabold"
           >
-            Reliable Global
-            <br />
-            Shipping &{" "}
-            <span className="bg-gradient-to-r from-gold-light via-gold to-white bg-clip-text text-transparent">
-              Logistics
-            </span>
+            International Courier Service in Ahmedabad
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.12 }}
-            className="mt-5 max-w-lg text-lg leading-relaxed text-white/75"
+            className="mt-4 max-w-lg font-display text-xl font-bold text-white/95 sm:text-2xl"
           >
-            Connecting Ahmedabad to the world. Fast, secure and hassle-free
-            international courier & cargo to the USA, UK, Canada, Australia and
-            200+ countries.
+            Reliable Global Shipping & Logistics
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.16 }}
+            className="mt-4 max-w-lg text-lg leading-relaxed text-white/75"
+          >
+            Door-to-door international courier from New Sahibaug, Ahmedabad to
+            the USA, UK, Canada, Australia, Dubai and 200+ countries — air cargo,
+            sea freight and Pardesh Parcel Seva for family abroad.
           </motion.p>
 
           <motion.div

@@ -2,24 +2,46 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Clock, Star, ArrowRight } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
+import { SectionHeading } from "@/components/SectionHeading";
+import { FaqAccordion } from "@/components/FaqAccordion";
 import { Reveal, RevealGroup } from "@/components/motion/Reveal";
+import { JsonLd } from "@/components/JsonLd";
 import { getDestinations } from "@/lib/data";
 import { codeToFlag } from "@/lib/utils";
+import {
+  pageMetadata,
+  breadcrumbJsonLd,
+  faqPageJsonLd,
+} from "@/lib/seo";
+import {
+  DESTINATION_SEO_SECTIONS,
+  DESTINATIONS_FAQ,
+} from "@/lib/seo-content";
 
-export const metadata: Metadata = {
-  title: "Destinations — Countries We Ship To Worldwide",
+export const metadata: Metadata = pageMetadata({
+  title:
+    "Courier to USA, UK, Canada, Australia & Dubai from Ahmedabad | Hiral",
   description:
-    "Hiral International Courier delivers door-to-door to the USA, UK, Canada, Australia, Europe, the Gulf and 200+ countries. See transit times for popular destinations.",
-};
+    "Courier to USA, UK, Canada, Australia, Dubai & New Zealand from Ahmedabad. Transit times, food & medicine tips, door-to-door international parcel service.",
+  path: "/destinations",
+});
 
 export default async function DestinationsPage() {
   const destinations = await getDestinations();
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Destinations", path: "/destinations" },
+        ])}
+      />
+      <JsonLd data={faqPageJsonLd(DESTINATIONS_FAQ)} />
+
       <PageHero
         crumb="Destinations"
-        title="We Deliver Across the Globe"
-        subtitle="Door-to-door delivery to 200+ countries. Here are the destinations our customers ship to most — with typical transit times."
+        title="Countries We Ship to from Ahmedabad"
+        subtitle="Door-to-door international courier to 200+ countries. Popular lanes from New Sahibaug, Ahmedabad — with typical air transit times."
       />
       <section className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,6 +71,60 @@ export default async function DestinationsPage() {
               </Reveal>
             ))}
           </RevealGroup>
+
+          <div className="mt-20 space-y-12">
+            {DESTINATION_SEO_SECTIONS.map((section) => (
+              <Reveal key={section.slug}>
+                <article className="rounded-3xl border border-border bg-muted/40 p-8 lg:p-10">
+                  <h2 className="font-display text-2xl font-bold text-brand-navy sm:text-3xl">
+                    {section.heading}
+                  </h2>
+                  <p className="mt-3 font-semibold text-brand">{section.transit}</p>
+                  <p className="mt-4 text-muted-foreground">
+                    <span className="font-semibold text-foreground">Commonly sent: </span>
+                    {section.commonItems}
+                  </p>
+                  <p className="mt-3 text-muted-foreground leading-relaxed">
+                    {section.notes}
+                  </p>
+                  <p className="mt-5 text-sm text-muted-foreground">
+                    Need a quote for this route?{" "}
+                    <Link
+                      href="/contact"
+                      className="font-semibold text-brand hover:underline"
+                    >
+                      Contact us for a free courier quote in Ahmedabad
+                    </Link>{" "}
+                    or explore{" "}
+                    <Link
+                      href="/services/air-cargo"
+                      className="font-semibold text-brand hover:underline"
+                    >
+                      air cargo from Ahmedabad
+                    </Link>
+                    .
+                  </p>
+                </article>
+              </Reveal>
+            ))}
+          </div>
+
+          <div className="mt-20">
+            <SectionHeading
+              eyebrow="FAQ"
+              title="Destination shipping questions"
+              subtitle="Transit times and food rules vary by country — we confirm before you ship."
+            />
+            <div className="mt-10 max-w-3xl">
+              <FaqAccordion
+                items={DESTINATIONS_FAQ.map((f, i) => ({
+                  id: `dest-faq-${i}`,
+                  question: f.question,
+                  answer: f.answer,
+                }))}
+              />
+            </div>
+          </div>
 
           <Reveal delay={0.1}>
             <div className="mt-14 rounded-3xl border border-border bg-muted/50 p-8 text-center">

@@ -20,8 +20,8 @@ async function main() {
   // ---- Settings (singleton row id=1) ----
   await prisma.setting.upsert({
     where: { id: 1 },
-    update: {},
-    create: { id: 1 },
+    update: { email: "info@hiralinternationalcourier.com" },
+    create: { id: 1, email: "info@hiralinternationalcourier.com" },
   });
   console.log("✓ Settings initialised");
 

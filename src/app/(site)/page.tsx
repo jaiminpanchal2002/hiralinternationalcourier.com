@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ShieldCheck,
@@ -23,6 +24,18 @@ import {
   getDestinations,
 } from "@/lib/data";
 import { codeToFlag } from "@/lib/utils";
+import { pageMetadata } from "@/lib/seo";
+import { DESTINATION_BLURBS, HOME_FAQS } from "@/lib/seo-content";
+import { FaqAccordion } from "@/components/FaqAccordion";
+import { JsonLd } from "@/components/JsonLd";
+import { faqPageJsonLd } from "@/lib/seo";
+
+export const metadata: Metadata = pageMetadata({
+  title: "International Courier Service in Ahmedabad | Hiral International Courier",
+  description:
+    "Door-to-door international courier in Ahmedabad — USA, UK, Canada, Australia & Dubai. Air & sea cargo, customs, packing. Free quote: New Sahibaug office.",
+  path: "/",
+});
 
 const WHY = [
   {
@@ -84,7 +97,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="What we do"
             title="Complete Shipping Solutions"
-            subtitle="Air and sea cargo, customs, packaging and personal parcels — everything you need to send anything, anywhere."
+            subtitle="From our Ahmedabad office: air and sea cargo, customs, packaging and personal parcels — door-to-door courier to 200+ countries."
           />
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {services.map((s, i) => (
@@ -155,15 +168,27 @@ export default async function HomePage() {
           <RevealGroup className="mt-14 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {popular.map((d) => (
               <Reveal key={d.id} as="div">
-                <div className="group flex items-center gap-4 rounded-2xl border border-border bg-surface p-4 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40">
-                  <span className="text-3xl transition-transform group-hover:scale-110">
-                    {codeToFlag(d.code)}
-                  </span>
-                  <div>
-                    <div className="font-display font-bold text-brand-navy">{d.name}</div>
-                    <div className="text-xs text-muted-foreground">{d.transitDays}</div>
+                <Link
+                  href="/destinations"
+                  className="group flex h-full flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40"
+                >
+                  <div className="flex items-center gap-4">
+                    <span className="text-3xl transition-transform group-hover:scale-110">
+                      {codeToFlag(d.code)}
+                    </span>
+                    <div>
+                      <div className="font-display font-bold text-brand-navy">
+                        Courier to {d.name} from Ahmedabad
+                      </div>
+                      <div className="text-xs text-muted-foreground">{d.transitDays}</div>
+                    </div>
                   </div>
-                </div>
+                  {DESTINATION_BLURBS[d.code] && (
+                    <p className="text-xs leading-relaxed text-muted-foreground pl-1">
+                      {DESTINATION_BLURBS[d.code]}
+                    </p>
+                  )}
+                </Link>
               </Reveal>
             ))}
           </RevealGroup>
@@ -219,6 +244,28 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ---- FAQ ---- */}
+      <section className="bg-muted py-20 lg:py-24">
+        <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="FAQ"
+            title="International Courier — Common Questions"
+            subtitle="Door-to-door courier from Ahmedabad, Gandhinagar and Kalol to the USA, UK, Canada and beyond."
+          />
+          <div className="mt-10">
+            <FaqAccordion
+              items={HOME_FAQS.map((f, i) => ({
+                id: `home-faq-${i}`,
+                question: f.question,
+                answer: f.answer,
+              }))}
+            />
+          </div>
+        </div>
+      </section>
+
+      <JsonLd data={faqPageJsonLd(HOME_FAQS)} />
 
       {/* ---- CTA band ---- */}
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

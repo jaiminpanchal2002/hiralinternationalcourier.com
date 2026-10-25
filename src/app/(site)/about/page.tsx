@@ -14,12 +14,15 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { StatCounter } from "@/components/StatCounter";
 import { Reveal, RevealGroup } from "@/components/motion/Reveal";
 import { getStats } from "@/lib/data";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "About Us — Trusted International Courier in Ahmedabad",
+export const metadata: Metadata = pageMetadata({
+  title: "About Hiral International Courier: Trusted Courier in Ahmedabad",
   description:
-    "Hiral International Courier Service is Ahmedabad's premier logistics partner with 4+ years of experience and certified import/export expertise. Learn our story, mission and edge.",
-};
+    "Meet Hiral International Courier (Pardesh Parcel Seva) — 4+ years shipping from New Sahibaug, Ahmedabad with certified import/export expertise.",
+  path: "/about",
+});
 
 const VALUES = [
   { icon: Award, title: "Proven Expertise", text: "4+ years dedicated to international courier & cargo, with a track record of safe, on-time delivery." },
@@ -32,10 +35,17 @@ export default async function AboutPage() {
   const stats = await getStats();
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "About", path: "/about" },
+        ])}
+      />
+
       <PageHero
         crumb="About"
-        title="Your Trusted Global Shipping Partner"
-        subtitle="Based in Ahmedabad, Hiral International Courier Service connects Gujarat to the world with reliable, expert-managed logistics."
+        title="Trusted International Courier in Ahmedabad"
+        subtitle="Hiral International Courier Service — Pardesh Parcel Seva — connects Gujarat to the world from New Sahibaug with reliable, expert-managed logistics."
       />
 
       {/* Who we are */}
@@ -73,7 +83,7 @@ export default async function AboutPage() {
             <div className="mt-6 space-y-4 text-muted-foreground">
               <Reveal><p>Hiral International Courier Service is a premier logistics company headquartered in Ahmedabad, Gujarat. We specialise in international courier and cargo — moving documents, parcels, personal effects and commercial consignments across borders with speed and security.</p></Reveal>
               <Reveal delay={0.05}><p>What sets us apart is a rare combination: hands-on industry experience paired with formal education in import and export management. That means your shipment is handled by people who genuinely understand customs, compliance and global trade routes.</p></Reveal>
-              <Reveal delay={0.1}><p>Whether you&apos;re a business exporting in bulk or a family sending a care package to loved ones abroad, we treat every shipment with the same professionalism and care.</p></Reveal>
+              <Reveal delay={0.1}><p>Whether you&apos;re a business exporting in bulk or a family sending a care package to loved ones abroad, we treat every shipment with the same professionalism and care. Customers across Ahmedabad, Gandhinagar and Kalol rely on us for <Link href="/services/personal-parcels" className="font-semibold text-brand hover:underline">food and medicine parcels abroad</Link> and <Link href="/destinations" className="font-semibold text-brand hover:underline">courier to the USA, UK and Canada</Link>.</p></Reveal>
             </div>
           </div>
         </div>

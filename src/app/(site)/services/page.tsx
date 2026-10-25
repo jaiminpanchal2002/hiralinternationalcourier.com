@@ -5,21 +5,31 @@ import { PageHero } from "@/components/PageHero";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Reveal } from "@/components/motion/Reveal";
 import { getServices } from "@/lib/data";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Our Services — Air & Sea Cargo, Customs, Packaging",
+export const metadata: Metadata = pageMetadata({
+  title: "International Courier & Cargo Services in Ahmedabad | Hiral",
   description:
-    "Explore Hiral's international shipping services: air cargo, sea cargo, custom clearance, professional packaging, commercial logistics and personal parcels from Ahmedabad worldwide.",
-};
+    "Courier services in Ahmedabad: air & sea cargo, custom clearance, packing, commercial export & personal parcels. Door-to-door to USA, UK, Canada & more.",
+  path: "/services",
+});
 
 export default async function ServicesPage() {
   const services = await getServices();
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+        ])}
+      />
+
       <PageHero
         crumb="Services"
-        title="Shipping Services Built Around You"
-        subtitle="From urgent air freight to cost-effective sea cargo — plus customs, packaging and personal parcels — we cover every shipping need."
+        title="Courier & Cargo Services from Ahmedabad"
+        subtitle="From urgent air freight to cost-effective sea cargo — plus customs, packaging and personal parcels — door-to-door international courier from our New Sahibaug office."
       />
       <section className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

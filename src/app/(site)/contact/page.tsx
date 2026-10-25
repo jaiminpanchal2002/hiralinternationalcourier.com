@@ -4,12 +4,15 @@ import { PageHero } from "@/components/PageHero";
 import { ContactForm } from "@/components/ContactForm";
 import { Reveal } from "@/components/motion/Reveal";
 import { getSettings } from "@/lib/data";
+import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
 
-export const metadata: Metadata = {
-  title: "Contact Us — Get a Free Shipping Quote",
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Hiral International Courier: Free Quote, Ahmedabad",
   description:
-    "Contact Hiral International Courier Service in Ahmedabad. Call +91 91570 45048, WhatsApp us, or request a free quote for shipping worldwide.",
-};
+    "International courier near me — New Sahibaug, Ahmedabad. Call, WhatsApp or request a free door-to-door quote to USA, UK, Canada, Dubai & worldwide.",
+  path: "/contact",
+});
 
 export default async function ContactPage() {
   const s = await getSettings();
@@ -42,10 +45,17 @@ export default async function ContactPage() {
 
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Contact", path: "/contact" },
+        ])}
+      />
+
       <PageHero
         crumb="Contact"
-        title="Let's Get Your Parcel Moving"
-        subtitle="Reach out for a free quote or any question about shipping worldwide. We're here to help."
+        title="Contact Us for a Free Courier Quote"
+        subtitle="International courier in New Sahibaug, Ahmedabad — call, WhatsApp or send your shipment details for a fast, honest quote."
       />
 
       <section className="py-20 lg:py-28">
@@ -115,12 +125,27 @@ export default async function ContactPage() {
             </div>
           </div>
 
+          <Reveal delay={0.1}>
+            <div className="mt-14">
+              <h2 className="font-display text-xl font-bold text-brand-navy">
+                Office address
+              </h2>
+              <p className="mt-2 max-w-2xl text-muted-foreground leading-relaxed">
+                {s.addressLine}
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">Hours: </span>
+                {s.businessHours}
+              </p>
+            </div>
+          </Reveal>
+
           {/* Map */}
           <Reveal delay={0.1}>
-            <div className="mt-14 overflow-hidden rounded-3xl border border-border shadow-soft">
+            <div className="mt-8 overflow-hidden rounded-3xl border border-border shadow-soft">
               <iframe
                 src={s.mapEmbedUrl}
-                title="Hiral International Courier location"
+                title="Hiral International Courier — New Sahibaug, Ahmedabad map"
                 className="h-[360px] w-full"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
