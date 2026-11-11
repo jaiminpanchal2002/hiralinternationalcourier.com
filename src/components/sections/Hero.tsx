@@ -73,9 +73,10 @@ export function Hero() {
             transition={{ duration: 0.7, delay: 0.16 }}
             className="mt-4 max-w-lg text-lg leading-relaxed text-white/75"
           >
-            Door-to-door international courier from New Sahibaug, Ahmedabad to
-            the USA, UK, Canada, Australia, Dubai and 200+ countries — air cargo,
-            sea freight and Pardesh Parcel Seva for family abroad.
+            Door-to-door international courier from Ahmedabad, Gandhinagar and
+            Kalol — pickup at your door, shipping to the USA, UK, Canada,
+            Australia, Dubai and 200+ countries. Air cargo, sea freight and
+            Pardesh Parcel Seva for family abroad.
           </motion.p>
 
           <motion.div
