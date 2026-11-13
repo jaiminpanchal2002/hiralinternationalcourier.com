@@ -8,9 +8,10 @@ import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Contact Hiral International Courier: Free Quote, Ahmedabad",
+  title:
+    "Contact International Courier Ahmedabad, Gandhinagar & Kalol | Hiral",
   description:
-    "International courier near me — New Sahibaug, Ahmedabad. Call, WhatsApp or request a free door-to-door quote to USA, UK, Canada, Dubai & worldwide.",
+    "Courier near me in Ahmedabad, Gandhinagar & Kalol. Kalol international courier pickup — call, WhatsApp or free quote from New Sahibaug to USA, UK, Canada & worldwide.",
   path: "/contact",
 });
 
@@ -55,7 +56,7 @@ export default async function ContactPage() {
       <PageHero
         crumb="Contact"
         title="Contact Us for a Free Courier Quote"
-        subtitle="International courier in New Sahibaug, Ahmedabad — call, WhatsApp or send your shipment details for a fast, honest quote."
+        subtitle="International courier for Ahmedabad, Gandhinagar and Kalol — door pickup, office in New Sahibaug. Call, WhatsApp or request a free quote."
       />
 
       <section className="py-20 lg:py-28">
@@ -69,6 +70,9 @@ export default async function ContactPage() {
                 </h2>
                 <p className="mt-3 text-muted-foreground">
                   Prefer to talk? Call or WhatsApp us directly — we respond fast.
+                  We arrange <strong className="font-semibold text-foreground">Kalol international courier service</strong>,{" "}
+                  <strong className="font-semibold text-foreground">Gandhinagar international courier</strong> pickup
+                  and Ahmedabad door collection.
                 </p>
               </Reveal>
 

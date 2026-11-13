@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     template: "%s | Hiral International Courier",
   },
   description:
-    "Door-to-door international courier from Ahmedabad to the USA, UK, Canada, Australia, Dubai & 200+ countries. Air & sea cargo, customs, packing — Pardesh Parcel Seva.",
+    "International courier in Ahmedabad, Gandhinagar & Kalol. Door-to-door to USA, UK, Canada, Australia & Dubai. Air cargo, sea freight, customs — Pardesh Parcel Seva.",
   authors: [{ name: "Hiral International Courier Service" }],
   creator: "Hiral International Courier Service",
   openGraph: {
@@ -106,6 +106,11 @@ export default async function RootLayout({
       "Hiral International Courier",
       "Hiral Courier Ahmedabad",
       "Hiral International Courier & Cargo",
+      "International courier service Ahmedabad",
+      "International courier service Gandhinagar",
+      "International courier service Kalol",
+      "Kalol international courier service",
+      "Gandhinagar international courier",
     ],
     image: `${SITE_URL}/logo-full.png`,
     logo: `${SITE_URL}/logo-full.png`,
@@ -142,9 +147,31 @@ export default async function RootLayout({
       addressRegion: "Gujarat",
       addressCountry: "IN",
     },
-    areaServed: ["United States", "United Kingdom", "Canada", "Australia", "Worldwide"],
+    areaServed: [
+      {
+        "@type": "City",
+        name: "Ahmedabad",
+        containedInPlace: { "@type": "State", name: "Gujarat" },
+      },
+      {
+        "@type": "City",
+        name: "Gandhinagar",
+        containedInPlace: { "@type": "State", name: "Gujarat" },
+      },
+      {
+        "@type": "City",
+        name: "Kalol",
+        containedInPlace: { "@type": "State", name: "Gujarat" },
+      },
+      "United States",
+      "United Kingdom",
+      "Canada",
+      "Australia",
+      "United Arab Emirates",
+      "Worldwide",
+    ],
     description:
-      "International courier and cargo service in Ahmedabad offering door-to-door delivery worldwide.",
+      "International courier and cargo in Ahmedabad, Gandhinagar and Kalol — door-to-door pickup and worldwide delivery.",
     ...(sameAs.length ? { sameAs } : {}),
   };
 

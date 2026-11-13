@@ -9,9 +9,9 @@ import { pageMetadata, breadcrumbJsonLd } from "@/lib/seo";
 import { JsonLd } from "@/components/JsonLd";
 
 export const metadata: Metadata = pageMetadata({
-  title: "International Courier & Cargo Services in Ahmedabad | Hiral",
+  title: "Courier Services Ahmedabad, Gandhinagar & Kalol | Hiral",
   description:
-    "Courier services in Ahmedabad: air & sea cargo, custom clearance, packing, commercial export & personal parcels. Door-to-door to USA, UK, Canada & more.",
+    "International courier services for Ahmedabad, Gandhinagar & Kalol — air & sea cargo, customs, packing, export & personal parcels door-to-door worldwide.",
   path: "/services",
 });
 

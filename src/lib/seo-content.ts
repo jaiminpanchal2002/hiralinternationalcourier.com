@@ -22,6 +22,16 @@ export const HOME_FAQS = [
       "Yes. Our office is in New Sahibaug, Ahmedabad. We arrange pickup across Ahmedabad, Gandhinagar, Kalol and surrounding Gujarat for international shipments.",
   },
   {
+    question: "Is there international courier service in Kalol?",
+    answer:
+      "Yes — Hiral offers Kalol international courier service with door pickup. Send parcels abroad from Kalol with air or sea cargo, tracking and customs support from our Ahmedabad team.",
+  },
+  {
+    question: "International courier in Gandhinagar — do you pick up?",
+    answer:
+      "We provide Gandhinagar international courier with collection at your home or office. Same door-to-door shipping to the USA, UK, Canada, Australia, Dubai and 200+ countries as our Ahmedabad customers.",
+  },
+  {
     question: "How is international courier price calculated?",
     answer:
       "Rates depend on destination, service (air or sea), and chargeable weight — the higher of actual weight or volumetric weight. Request a free quote on our contact page or WhatsApp.",

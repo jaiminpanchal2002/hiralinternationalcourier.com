@@ -28,14 +28,29 @@ import { pageMetadata } from "@/lib/seo";
 import { DESTINATION_BLURBS, HOME_FAQS } from "@/lib/seo-content";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
-import { faqPageJsonLd } from "@/lib/seo";
+import { faqPageJsonLd, SITE_URL } from "@/lib/seo";
+import { SERVICE_CITIES, LOCAL_KEYWORDS_LINE } from "@/lib/local-seo";
+import { MapPin } from "lucide-react";
 
 export const metadata: Metadata = pageMetadata({
-  title: "International Courier Service in Ahmedabad | Hiral International Courier",
+  title:
+    "International Courier Ahmedabad, Gandhinagar & Kalol | Hiral Courier",
   description:
-    "Door-to-door international courier in Ahmedabad — USA, UK, Canada, Australia & Dubai. Air & sea cargo, customs, packing. Free quote: New Sahibaug office.",
+    "International courier service in Ahmedabad, Gandhinagar & Kalol. Kalol & Gandhinagar pickup, door-to-door to USA, UK, Canada, Dubai. Free quote — New Sahibaug.",
   path: "/",
 });
+
+const localAreasJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "International courier pickup areas",
+  itemListElement: SERVICE_CITIES.map((city, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: city.headline,
+    url: `${SITE_URL}/#service-areas`,
+  })),
+};
 
 const WHY = [
   {
@@ -80,6 +95,49 @@ export default async function HomePage() {
   return (
     <>
       <Hero />
+
+      <JsonLd data={localAreasJsonLd} />
+
+      {/* ---- Local service areas (Ahmedabad, Gandhinagar, Kalol) ---- */}
+      <section
+        id="service-areas"
+        className="border-b border-border bg-surface py-16 lg:py-20"
+      >
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <SectionHeading
+            eyebrow="Near you"
+            title="International Courier in Ahmedabad, Gandhinagar & Kalol"
+            subtitle={LOCAL_KEYWORDS_LINE}
+          />
+          <RevealGroup className="mt-12 grid gap-6 md:grid-cols-3">
+            {SERVICE_CITIES.map((city) => (
+              <Reveal key={city.name} as="article">
+                <div className="h-full rounded-2xl border border-border bg-muted/40 p-7 shadow-soft">
+                  <div className="flex items-center gap-2 text-brand">
+                    <MapPin className="h-5 w-5" aria-hidden />
+                    <span className="text-xs font-bold uppercase tracking-wider">
+                      {city.name}
+                    </span>
+                  </div>
+                  <h2 className="mt-3 font-display text-lg font-bold text-brand-navy">
+                    {city.headline}
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {city.blurb}
+                  </p>
+                  <Link
+                    href="/contact"
+                    className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-brand hover:gap-2 transition-all"
+                  >
+                    Free quote for {city.name}{" "}
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                </div>
+              </Reveal>
+            ))}
+          </RevealGroup>
+        </div>
+      </section>
 
       {/* ---- Stats band ---- */}
       <section className="relative -mt-px bg-brand-navy py-14">

@@ -42,8 +42,9 @@ export function Footer({ settings }: { settings: Settings }) {
           <div className="lg:col-span-1">
             <LogoCard height="h-16" />
             <p className="mt-4 max-w-xs text-sm leading-relaxed text-white/60">
-              Ahmedabad&apos;s trusted partner for reliable, door-to-door
-              international courier & cargo — connecting you to the world.
+              International courier service in Ahmedabad, Gandhinagar and Kalol —
+              reliable door-to-door parcel & cargo to the USA, UK, Canada and
+              worldwide.
             </p>
             <div className="mt-5 flex gap-3">
               {settings.facebook && (
