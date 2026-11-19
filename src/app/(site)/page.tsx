@@ -25,7 +25,11 @@ import {
 } from "@/lib/data";
 import { codeToFlag } from "@/lib/utils";
 import { pageMetadata } from "@/lib/seo";
-import { DESTINATION_BLURBS, HOME_FAQS } from "@/lib/seo-content";
+import {
+  DESTINATION_BLURBS,
+  HOME_FAQS,
+  destinationPathForCode,
+} from "@/lib/seo-content";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { JsonLd } from "@/components/JsonLd";
 import { faqPageJsonLd, SITE_URL } from "@/lib/seo";
@@ -111,8 +115,8 @@ export default async function HomePage() {
           />
           <RevealGroup className="mt-12 grid gap-6 md:grid-cols-3">
             {SERVICE_CITIES.map((city) => (
-              <Reveal key={city.name} as="article">
-                <div className="h-full rounded-2xl border border-border bg-muted/40 p-7 shadow-soft">
+              <Reveal key={city.name}>
+                <article className="h-full rounded-2xl border border-border bg-muted/40 p-7 shadow-soft">
                   <div className="flex items-center gap-2 text-brand">
                     <MapPin className="h-5 w-5" aria-hidden />
                     <span className="text-xs font-bold uppercase tracking-wider">
@@ -132,7 +136,7 @@ export default async function HomePage() {
                     Free quote for {city.name}{" "}
                     <ArrowRight className="h-4 w-4" />
                   </Link>
-                </div>
+                </article>
               </Reveal>
             ))}
           </RevealGroup>
@@ -227,7 +231,7 @@ export default async function HomePage() {
             {popular.map((d) => (
               <Reveal key={d.id} as="div">
                 <Link
-                  href="/destinations"
+                  href={destinationPathForCode(d.code) ?? "/destinations"}
                   className="group flex h-full flex-col gap-2 rounded-2xl border border-border bg-surface p-4 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40"
                 >
                   <div className="flex items-center gap-4">

@@ -7,6 +7,7 @@ import {
   BUSINESS_EMAIL,
   BUSINESS_GEO,
   BUSINESS_MAP_URL,
+  DEFAULT_OG_IMAGE,
 } from "@/lib/seo";
 
 const display = Lexend({
@@ -26,8 +27,7 @@ const body = Source_Sans_3({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default:
-      "International Courier Service in Ahmedabad | Hiral International Courier",
+    default: "International Courier Ahmedabad | Hiral Courier",
     template: "%s | Hiral International Courier",
   },
   description:
@@ -43,12 +43,14 @@ export const metadata: Metadata = {
       "Hiral International Courier Service | Global Shipping from Ahmedabad",
     description:
       "Fast, secure door-to-door international courier & cargo from Ahmedabad to USA, UK, Canada, Australia & 200+ countries.",
+    images: [DEFAULT_OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Hiral International Courier Service",
     description:
       "Reliable global shipping & logistics from Ahmedabad to the world.",
+    images: [DEFAULT_OG_IMAGE.url],
   },
   robots: {
     index: true,
