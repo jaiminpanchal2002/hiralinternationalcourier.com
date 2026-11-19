@@ -21,10 +21,8 @@ import {
   SERVICE_H1,
 } from "@/lib/seo-content";
 
-export async function generateStaticParams() {
-  const services = await getServices();
-  return services.map((s) => ({ slug: s.slug }));
-}
+/** Match site layout — avoid Prisma at build time when DATABASE_URL is unset. */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

@@ -16,6 +16,7 @@ import {
 import {
   DESTINATION_SEO_SECTIONS,
   DESTINATIONS_FAQ,
+  destinationPathForCode,
 } from "@/lib/seo-content";
 
 export const metadata: Metadata = pageMetadata({
@@ -46,9 +47,12 @@ export default async function DestinationsPage() {
       <section className="py-20 lg:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <RevealGroup className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {destinations.map((d) => (
-              <Reveal key={d.id} as="div">
-                <div className="group relative flex h-full items-center gap-5 overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand">
+            {destinations.map((d) => {
+              const detail = destinationPathForCode(d.code);
+              const className =
+                "group relative flex h-full items-center gap-5 overflow-hidden rounded-2xl border border-border bg-surface p-6 shadow-soft transition-all hover:-translate-y-1 hover:border-brand/40 hover:shadow-brand";
+              const content = (
+                <>
                   {d.popular && (
                     <span className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-gold/15 px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-gold">
                       <Star className="h-3 w-3 fill-gold" /> Popular
@@ -67,9 +71,20 @@ export default async function DestinationsPage() {
                       </p>
                     )}
                   </div>
-                </div>
-              </Reveal>
-            ))}
+                </>
+              );
+              return (
+                <Reveal key={d.id} as="div">
+                  {detail ? (
+                    <Link href={detail} className={className}>
+                      {content}
+                    </Link>
+                  ) : (
+                    <div className={className}>{content}</div>
+                  )}
+                </Reveal>
+              );
+            })}
           </RevealGroup>
 
           <div className="mt-20 space-y-12">
@@ -88,21 +103,26 @@ export default async function DestinationsPage() {
                     {section.notes}
                   </p>
                   <p className="mt-5 text-sm text-muted-foreground">
-                    Need a quote for this route?{" "}
+                    <Link
+                      href={`/destinations/${section.slug}`}
+                      className="font-semibold text-brand hover:underline"
+                    >
+                      Full guide: {section.heading}
+                    </Link>
+                    {" · "}
                     <Link
                       href="/contact"
                       className="font-semibold text-brand hover:underline"
                     >
-                      Contact us for a free courier quote in Ahmedabad
-                    </Link>{" "}
-                    or explore{" "}
+                      Free quote in Ahmedabad
+                    </Link>
+                    {" · "}
                     <Link
                       href="/services/air-cargo"
                       className="font-semibold text-brand hover:underline"
                     >
-                      air cargo from Ahmedabad
+                      Air cargo
                     </Link>
-                    .
                   </p>
                 </article>
               </Reveal>

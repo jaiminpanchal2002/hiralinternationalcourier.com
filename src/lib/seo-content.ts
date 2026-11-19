@@ -60,6 +60,93 @@ export type DestinationSeoSection = {
   notes: string;
 };
 
+/** DB `code` → URL slug under `/destinations/[slug]`. */
+export const DESTINATION_CODE_TO_SLUG: Record<string, string> = {
+  us: "usa",
+  gb: "uk",
+  ca: "canada",
+  au: "australia",
+  ae: "uae",
+  nz: "new-zealand",
+};
+
+export function destinationPathForCode(code: string): string | null {
+  const slug = DESTINATION_CODE_TO_SLUG[code];
+  return slug ? `/destinations/${slug}` : null;
+}
+
+export function getDestinationSection(slug: string): DestinationSeoSection | undefined {
+  return DESTINATION_SEO_SECTIONS.find((s) => s.slug === slug);
+}
+
+export const DESTINATION_LANDING_INTROS: Record<string, string> = {
+  usa:
+    "Ship documents, gifts, medicines and personal parcels from Ahmedabad, Gandhinagar or Kalol to any US city. We handle pickup, export paperwork and airline dispatch from our New Sahibaug office.",
+  uk:
+    "Door-to-door international courier from Gujarat to London and cities across the UK — with tracking, customs support and packing guidance before you ship.",
+  canada:
+    "Popular for food parcels, student care packages and gifts to Toronto, Vancouver and beyond. We confirm Canadian customs rules before collection.",
+  australia:
+    "Personal and commercial parcels to Sydney, Melbourne, Perth and nationwide — with biosecurity-aware packing advice from our Ahmedabad team.",
+  uae:
+    "Our fastest lane from Ahmedabad to Dubai and the wider UAE — ideal for documents, samples and gifts with typical 3–5 day air transit.",
+  "new-zealand":
+    "Auckland, Wellington and nationwide delivery for gifts, clothing and documents. Plan ahead for longer Pacific transit from Gujarat.",
+};
+
+export const DESTINATION_PAGE_FAQS: Record<
+  string,
+  { question: string; answer: string }[]
+> = {
+  usa: [
+    {
+      question: "How much does courier to the USA cost from Ahmedabad?",
+      answer:
+        "Rates depend on weight (actual vs volumetric), US city and service speed. Share dimensions on our contact page or WhatsApp for a free quote before pickup.",
+    },
+    {
+      question: "Can I send Ayurvedic products to the USA?",
+      answer:
+        "Some herbal and Ayurvedic items face US FDA restrictions. Send us product names and we advise on labels, invoices and whether the item can fly.",
+    },
+  ],
+  uk: [
+    {
+      question: "Do you deliver to all UK postcodes from Ahmedabad?",
+      answer:
+        "Yes — door delivery across England, Scotland, Wales and Northern Ireland once customs clearance completes in the UK.",
+    },
+  ],
+  canada: [
+    {
+      question: "Can I send pickles and snacks to Canada from Ahmedabad?",
+      answer:
+        "Many packaged, shelf-stable foods are allowed with correct declaration; some items are prohibited. We review your list against CFIA rules before booking.",
+    },
+  ],
+  australia: [
+    {
+      question: "What cannot be sent to Australia in a personal parcel?",
+      answer:
+        "Fresh produce, seeds, untreated wood and some organic materials are restricted. We guide you on compliant packing for Australian biosecurity.",
+    },
+  ],
+  uae: [
+    {
+      question: "How fast is courier to Dubai from Ahmedabad?",
+      answer:
+        "Express air is often 3–5 working days after pickup — one of our quickest international lanes from Gujarat.",
+    },
+  ],
+  "new-zealand": [
+    {
+      question: "Is New Zealand shipping slower than Australia?",
+      answer:
+        "Transit is typically 7–10 working days by express air — similar biosecurity care as Australia; book early for festivals or university intake dates.",
+    },
+  ],
+};
+
 export const DESTINATION_SEO_SECTIONS: DestinationSeoSection[] = [
   {
     slug: "usa",

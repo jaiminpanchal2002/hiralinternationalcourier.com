@@ -14,6 +14,14 @@ export const BUSINESS_GEO = {
 export const BUSINESS_MAP_URL =
   "https://www.google.com/maps/search/?api=1&query=Shyam+Elegance+Near+Royal+Arcade+New+Sahibaug+Ahmedabad+382330";
 
+/** Default social preview (also generated via `app/opengraph-image.tsx`). */
+export const DEFAULT_OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "Hiral International Courier — Ahmedabad to worldwide door-to-door shipping",
+} as const;
+
 export function canonicalPath(path: string): Metadata["alternates"] {
   const normalized = path.startsWith("/") ? path : `/${path}`;
   return { canonical: normalized === "/" ? "/" : normalized };
@@ -36,6 +44,13 @@ export function pageMetadata({
       title,
       description,
       url: `${SITE_URL}${path === "/" ? "" : path}`,
+      images: [DEFAULT_OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [DEFAULT_OG_IMAGE.url],
     },
   };
 }
